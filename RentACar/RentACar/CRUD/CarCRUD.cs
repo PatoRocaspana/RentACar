@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.Json;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace RentACar
@@ -10,11 +11,8 @@ namespace RentACar
     {
         private readonly string _jsonFile = @"..\..\..\CRUD\Cars.json";
 
-
         public Car Create(Car car)
         {
-            Console.WriteLine($"Directory {Path.GetFullPath(_jsonFile)}");
-
             var cars = new List<Car>();
 
             if (File.Exists(_jsonFile))
@@ -22,7 +20,7 @@ namespace RentACar
                 var existingJsonToString = File.ReadAllText(_jsonFile);
                 cars = JsonSerializer.Deserialize<List<Car>>(existingJsonToString);
 
-                car.Id = cars.Count;
+                car.Id = cars.Last().Id + 1;
                 cars.Add(car);
             }
             else
@@ -31,11 +29,12 @@ namespace RentACar
                 cars.Add(car);
             }
 
-            var listToString = JsonSerializer.Serialize(cars);
+            var options = new JsonSerializerOptions { WriteIndented = true };
+
+            var listToString = JsonSerializer.Serialize(cars, options);
             File.WriteAllText(_jsonFile, listToString);
 
             return car;
-
         }
 
         public Car Get(int id)
