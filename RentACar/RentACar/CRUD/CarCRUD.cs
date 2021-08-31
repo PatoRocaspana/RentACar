@@ -1,21 +1,20 @@
 ﻿using System;
 using System.IO;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections;
+
 
 namespace RentACar
 {
     public class CarCRUD
     {
-        private readonly string _jsonFile = @"C:\repos\RentACar\RentACar\RentACar\DataBase\Cars.json";
+        private readonly string _jsonFile = @"..\..\..\CRUD\Cars.json";
+
 
         public Car Create(Car car)
         {
+            Console.WriteLine($"Directory {Path.GetFullPath(_jsonFile)}");
+
             var cars = new List<Car>();
 
             if (File.Exists(_jsonFile))
