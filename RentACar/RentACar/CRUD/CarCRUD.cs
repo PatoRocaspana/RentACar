@@ -35,7 +35,11 @@ namespace RentACar
             {
                 cars = DeserializeJsonToList(_jsonFile);
 
-                car.Id = cars.Last().Id + 1;
+                if ((cars.Count > 0))
+                    car.Id = (cars.Last().Id + 1);
+                else
+                    car.Id = 0;
+
                 cars.Add(car);
             }
             else
