@@ -11,14 +11,29 @@ namespace RentACar
     {
         private readonly string _jsonFile = @"..\..\..\CRUD\Cars.json";
 
+        private List<Car> DeserializeJsonToList(string jsonFile)
+        {
+            string existingJsonToString = File.ReadAllText(jsonFile);
+            List<Car> deserializedJson = JsonSerializer.Deserialize<List<Car>>(existingJsonToString);
+
+            return deserializedJson;
+        }
+
+        private void SerializeListToJson(List<Car> cars)
+        {
+            var options = new JsonSerializerOptions { WriteIndented = true };
+
+            string listToString = JsonSerializer.Serialize(cars, options);
+            File.WriteAllText(_jsonFile, listToString);
+        }
+
         public Car Create(Car car)
         {
             var cars = new List<Car>();
 
             if (File.Exists(_jsonFile))
             {
-                var existingJsonToString = File.ReadAllText(_jsonFile);
-                cars = JsonSerializer.Deserialize<List<Car>>(existingJsonToString);
+                cars = DeserializeJsonToList(_jsonFile);
 
                 car.Id = cars.Last().Id + 1;
                 cars.Add(car);
@@ -29,10 +44,7 @@ namespace RentACar
                 cars.Add(car);
             }
 
-            var options = new JsonSerializerOptions { WriteIndented = true };
-
-            var listToString = JsonSerializer.Serialize(cars, options);
-            File.WriteAllText(_jsonFile, listToString);
+            SerializeListToJson(cars);
 
             return car;
         }
