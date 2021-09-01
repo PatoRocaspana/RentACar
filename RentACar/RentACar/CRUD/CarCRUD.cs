@@ -55,8 +55,15 @@ namespace RentACar
 
         public Car Get(int id)
         {
-            // Code here
-            return new Car();
+            if (!File.Exists(_jsonFile)) return new Car(); //??????????
+
+            List<Car> cars = DeserializeJsonToList(_jsonFile);
+
+            var car = cars.Where(e => e.Id == id).FirstOrDefault();
+
+            if (car == null) return new Car(); //???????
+
+            return car;
         }
 
         public Car Update(Car car)
