@@ -8,15 +8,12 @@ namespace RentACar
         {
 
             var car1 = new Car(CarsBrands.Chevrolet, "Corsa", 5, "White", Transmission.Manual);
-            var car2 = new Car(CarsBrands.Fiat, "Punto", 3, "Blue", Transmission.Manual);
-            var car3 = new Car(CarsBrands.Volkswagen, "Passat", 4, "Black", Transmission.Automatic);
+            var car2 = new Car(CarsBrands.Volkswagen, "Passat", 4, "Black", Transmission.Automatic);
 
             var carCrud = new CarCRUD();
 
             carCrud.Create(car1);
             carCrud.Create(car2);
-            carCrud.Create(car3);
-
         }
     }
 }
