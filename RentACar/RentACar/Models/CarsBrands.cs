@@ -1,6 +1,6 @@
 ﻿namespace RentACar
 {
-    public enum CarsBrands
+    public enum Brand
     {
         Fiat = 0, 
         Ford = 1, 
