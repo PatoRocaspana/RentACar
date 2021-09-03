@@ -2,9 +2,9 @@
 {
     public interface ICarCRUD
     {
-        public Car Create(Car car);
-        public Car Get(int id);
-        public Car Update(Car car);
-        public void Delete(int id);
+        Car Create(Car car);
+        Car Get(int id);
+        Car Update(Car car);
+        void Delete(int id);
     }
 }
