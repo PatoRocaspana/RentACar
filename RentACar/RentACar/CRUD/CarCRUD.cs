@@ -1,4 +1,5 @@
-﻿using RentACar.Helpers;
+﻿using System.IO;
+using RentACar.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using RentACar.CRUD;
@@ -11,7 +12,7 @@ namespace RentACar
 
         public Car Create(Car car)
         {
-            var cars = CrudHelper.GetListFromFile(_jsonFile);
+            var cars = (File.Exists(_jsonFile)) ? CrudHelper.DeserializeJsonToList(_jsonFile) : new List<Car>();
 
             car.Id = CrudHelper.GetNewId(cars);
             cars.Add(car);
@@ -23,44 +24,34 @@ namespace RentACar
 
         public Car Get(int id)
         {
-            var cars = CrudHelper.GetListFromFile(_jsonFile);
+            if (!File.Exists(_jsonFile)) return null;
 
-            var car = cars.FirstOrDefault(e => e.Id == id);
+            var cars = CrudHelper.DeserializeJsonToList(_jsonFile);
 
-            return car;
+            var car = cars.Where(e => e.Id == id).FirstOrDefault();
+
+            return car ?? null;
         }
 
         public Car Update(Car car)
         {
-            var cars = CrudHelper.GetListFromFile(_jsonFile);
-            var carUpdated = UpdateCarInListById(cars, car);
+            if (!File.Exists(_jsonFile)) return null;
 
-            if (carUpdated is not null) CrudHelper.SerializeListToJson(cars, _jsonFile);
+            var cars = CrudHelper.DeserializeJsonToList(_jsonFile);
+
+            if (!cars.Any(e => e.Id == car.Id)) return null;
+
+            var carUpdated = CrudHelper.UpdateCarInListById(cars, car);
+            CrudHelper.SerializeListToJson(cars, _jsonFile);
 
             return carUpdated;
         }
 
         public void Delete(int id)
         {
-            var cars = CrudHelper.GetListFromFile(_jsonFile);
+            var cars = CrudHelper.DeserializeJsonToList(_jsonFile);
             cars.Remove(cars.FirstOrDefault(car => car.Id == id));
             CrudHelper.SerializeListToJson(cars, _jsonFile);
-        }
-
-        private static Car UpdateCarInListById(List<Car> cars, Car car)
-        {
-            var carUpdated = cars.FirstOrDefault(e => e.Id == car.Id);
-
-            if (carUpdated is not null)
-            {
-                carUpdated.Brand = car.Brand;
-                carUpdated.Color = car.Color;
-                carUpdated.DoorsQuantity = car.DoorsQuantity;
-                carUpdated.Model = car.Model;
-                carUpdated.Transmission = car.Transmission;
-            }
-
-            return carUpdated;
         }
     }
 }

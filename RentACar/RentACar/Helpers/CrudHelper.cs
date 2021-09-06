@@ -3,24 +3,29 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 
-namespace RentACar.Helpers
+namespace RentACar.Utilities
 {
     static public class CrudHelper
     {
-        public static List<Car> GetListFromFile(string json)
+        public static Car UpdateCarInListById(List<Car> cars, Car car)
         {
-            var carList = (!File.Exists(json)) ? new List<Car>() : DeserializeJsonToList(json);
-            return carList;
-        }
+            var carUpdated = cars.FirstOrDefault(e => e.Id == car.Id);
 
+            carUpdated.Brand = car.Brand;
+            carUpdated.Color = car.Color;
+            carUpdated.DoorsQuantity = car.DoorsQuantity;
+            carUpdated.Model = car.Model;
+            carUpdated.Transmission = car.Transmission;
+
+            return carUpdated;
+        }
         public static int GetNewId(List<Car> cars)
         {
             if (cars.Count > 0)
-                return cars.Max(e => e.Id) + 1;
+                return cars.Select(x => x.Id).OrderByDescending(x => x).FirstOrDefault() + 1;
             else
                 return 1;
         }
-
         public static List<Car> DeserializeJsonToList(string jsonFile)
         {
             using (var streamReader = File.OpenText(jsonFile))
@@ -30,7 +35,6 @@ namespace RentACar.Helpers
                 return deserializedJson;
             }
         }
-
         public static void SerializeListToJson(List<Car> cars, string jsonFile)
         {
             var options = new JsonSerializerOptions { WriteIndented = true };
