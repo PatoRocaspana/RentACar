@@ -4,16 +4,13 @@ namespace RentACar.Test
 {
     public static class CarCRUDTest
     {
-        static public void TestAll()
+        static public void TestAll(CarCRUD carCrud)
         {
             //Create Cars objects
             var car1 = new Car { Brand = Brand.Chevrolet, Model = "Corsa", DoorsQuantity = 5, Color = "White", Transmission = Transmission.Manual };
             var car2 = new Car { Brand = Brand.Fiat, Model = "Punto", DoorsQuantity = 3, Color = "Red", Transmission = Transmission.Manual };
             var car3 = new Car { Brand = Brand.Renault, Model = "Clio", DoorsQuantity = 5, Color = "Green", Transmission = Transmission.Manual };
             var car4 = new Car { Brand = Brand.Volkswagen, Model = "Vento", DoorsQuantity = 4, Color = "Silver", Transmission = Transmission.Automatic };
-
-            //Create CarCRUD object
-            var carCrud = new CarCRUD();
 
             //Create Cars in json
             carCrud.Create(car1);

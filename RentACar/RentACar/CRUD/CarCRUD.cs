@@ -1,13 +1,18 @@
-﻿using RentACar.Helpers;
+﻿using RentACar.CRUD;
+using RentACar.Helpers;
+using RentACar.Options;
 using System.Collections.Generic;
 using System.Linq;
-using RentACar.CRUD;
 
 namespace RentACar
 {
     public class CarCRUD : ICarCRUD
     {
-        private readonly string _jsonFile = @"..\..\..\Data\Cars.json";
+        private readonly string _jsonFile;
+        public CarCRUD(JsonFileStorageOptions config)
+        {
+            _jsonFile = config.FilePath;
+        }
 
         public Car Create(Car car)
         {
