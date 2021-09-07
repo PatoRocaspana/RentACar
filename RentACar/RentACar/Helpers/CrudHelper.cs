@@ -7,9 +7,13 @@ namespace RentACar.Helpers
 {
     static public class CrudHelper
     {
-        public static List<Car> GetListFromFile(string json)
+        /// <summary>
+        /// Takes a file and deserialize it to a List<Car>.
+        /// In the case that file does not exist, it returns a new empty List<Car>. CheckFileAndGetList
+        /// </summary>
+        public static List<Car> CheckFileAndGetList(string filePath)
         {
-            var carList = (!File.Exists(json)) ? new List<Car>() : DeserializeJsonToList(json);
+            var carList = (!File.Exists(filePath)) ? new List<Car>() : GetListFromFile(filePath);
             return carList;
         }
 
@@ -21,9 +25,9 @@ namespace RentACar.Helpers
                 return 1;
         }
 
-        public static List<Car> DeserializeJsonToList(string jsonFile)
+        public static List<Car> GetListFromFile(string filePath)
         {
-            using (var streamReader = File.OpenText(jsonFile))
+            using (var streamReader = File.OpenText(filePath))
             {
                 var jsonContent = streamReader.ReadToEnd();
                 List<Car> deserializedJson = JsonSerializer.Deserialize<List<Car>>(jsonContent);
@@ -31,11 +35,11 @@ namespace RentACar.Helpers
             }
         }
 
-        public static void SerializeListToJson(List<Car> cars, string jsonFile)
+        public static void SaveListToFile(List<Car> cars, string filePath)
         {
             var options = new JsonSerializerOptions { WriteIndented = true };
 
-            using (var streamWriter = File.CreateText(jsonFile))
+            using (var streamWriter = File.CreateText(filePath))
             {
                 var listToString = JsonSerializer.Serialize(cars, options);
                 streamWriter.Write(listToString);

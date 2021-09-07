@@ -11,19 +11,19 @@ namespace RentACar
 
         public Car Create(Car car)
         {
-            var cars = CrudHelper.GetListFromFile(_jsonFile);
+            var cars = CrudHelper.CheckFileAndGetList(_jsonFile);
 
             car.Id = CrudHelper.GetNewId(cars);
             cars.Add(car);
 
-            CrudHelper.SerializeListToJson(cars, _jsonFile);
+            CrudHelper.SaveListToFile(cars, _jsonFile);
 
             return car;
         }
 
         public Car Get(int id)
         {
-            var cars = CrudHelper.GetListFromFile(_jsonFile);
+            var cars = CrudHelper.CheckFileAndGetList(_jsonFile);
 
             var car = cars.FirstOrDefault(e => e.Id == id);
 
@@ -32,22 +32,22 @@ namespace RentACar
 
         public Car Update(Car car)
         {
-            var cars = CrudHelper.GetListFromFile(_jsonFile);
+            var cars = CrudHelper.CheckFileAndGetList(_jsonFile);
             var carUpdated = UpdateCarInListById(cars, car);
 
-            if (carUpdated is not null) CrudHelper.SerializeListToJson(cars, _jsonFile);
+            if (carUpdated is not null) CrudHelper.SaveListToFile(cars, _jsonFile);
 
             return carUpdated;
         }
 
         public void Delete(int id)
         {
-            var cars = CrudHelper.GetListFromFile(_jsonFile);
+            var cars = CrudHelper.CheckFileAndGetList(_jsonFile);
             cars.Remove(cars.FirstOrDefault(car => car.Id == id));
-            CrudHelper.SerializeListToJson(cars, _jsonFile);
+            CrudHelper.SaveListToFile(cars, _jsonFile);
         }
 
-        private static Car UpdateCarInListById(List<Car> cars, Car car)
+        private Car UpdateCarInListById(List<Car> cars, Car car)
         {
             var carUpdated = cars.FirstOrDefault(e => e.Id == car.Id);
 
