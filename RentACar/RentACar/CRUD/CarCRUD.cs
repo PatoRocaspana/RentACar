@@ -1,69 +1,71 @@
-﻿using System;
-using System.IO;
-using System.Text.Json;
+﻿using RentACar.CRUD;
+using RentACar.Helpers;
+using RentACar.Options;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace RentACar
 {
-    public class CarCRUD
+    public class CarCRUD : ICarCRUD
     {
-        private readonly string _jsonFile = @"..\..\..\CRUD\Cars.json";
-
-        private List<Car> DeserializeJsonToList(string jsonFile)
+        private readonly string _jsonFile;
+        public CarCRUD(JsonFileStorageOptions config)
         {
-            string existingJsonToString = File.ReadAllText(jsonFile);
-            List<Car> deserializedJson = JsonSerializer.Deserialize<List<Car>>(existingJsonToString);
-
-            return deserializedJson;
-        }
-
-        private void SerializeListToJson(List<Car> cars)
-        {
-            var options = new JsonSerializerOptions { WriteIndented = true };
-
-            string listToString = JsonSerializer.Serialize(cars, options);
-            File.WriteAllText(_jsonFile, listToString);
+            _jsonFile = config.FilePath;
         }
 
         public Car Create(Car car)
         {
-            var cars = new List<Car>();
+            var cars = CrudHelper.CheckFileAndGetList(_jsonFile);
 
-            if (File.Exists(_jsonFile))
-            {
-                cars = DeserializeJsonToList(_jsonFile);
+            car.Id = CrudHelper.GetNewId(cars);
+            cars.Add(car);
 
-                car.Id = cars.Last().Id + 1;
-                cars.Add(car);
-            }
-            else
-            {
-                car.Id = 0;
-                cars.Add(car);
-            }
-
-            SerializeListToJson(cars);
+            CrudHelper.SaveListToFile(cars, _jsonFile);
 
             return car;
         }
 
         public Car Get(int id)
         {
-            // Code here
-            return new Car();
+            var cars = CrudHelper.CheckFileAndGetList(_jsonFile);
+
+            var car = cars.FirstOrDefault(e => e.Id == id);
+
+            return car;
         }
 
         public Car Update(Car car)
         {
-            // Code here
-            return new Car();
+            var cars = CrudHelper.CheckFileAndGetList(_jsonFile);
+            var carUpdated = UpdateCarInListById(cars, car);
+
+            if (carUpdated is not null) CrudHelper.SaveListToFile(cars, _jsonFile);
+
+            return carUpdated;
         }
 
         public void Delete(int id)
         {
-            // Code here
+            var cars = CrudHelper.CheckFileAndGetList(_jsonFile);
+            cars.Remove(cars.FirstOrDefault(car => car.Id == id));
+            CrudHelper.SaveListToFile(cars, _jsonFile);
+        }
+
+        private Car UpdateCarInListById(List<Car> cars, Car car)
+        {
+            var carUpdated = cars.FirstOrDefault(e => e.Id == car.Id);
+
+            if (carUpdated is not null)
+            {
+                carUpdated.Brand = car.Brand;
+                carUpdated.Color = car.Color;
+                carUpdated.DoorsQuantity = car.DoorsQuantity;
+                carUpdated.Model = car.Model;
+                carUpdated.Transmission = car.Transmission;
+            }
+
+            return carUpdated;
         }
     }
 }

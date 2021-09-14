@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using RentACar.Options;
+using RentACar.Test;
+using System;
 
 namespace RentACar
 {
@@ -6,17 +10,30 @@ namespace RentACar
     {
         static void Main(string[] args)
         {
-
-            var car1 = new Car(CarsBrands.Chevrolet, "Corsa", 5, "White", Transmission.Manual);
-            var car2 = new Car(CarsBrands.Fiat, "Punto", 3, "Blue", Transmission.Manual);
-            var car3 = new Car(CarsBrands.Volkswagen, "Passat", 4, "Black", Transmission.Automatic);
-
-            var carCrud = new CarCRUD();
-
-            carCrud.Create(car1);
-            carCrud.Create(car2);
-            carCrud.Create(car3);
-
+            IHost host = CreateHostBuilder(args).Build();
+            host.RunAsync();
         }
+
+        static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, configuration) =>
+                {
+                    configuration.Sources.Clear();
+
+                    configuration
+                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+                    IConfigurationRoot configurationRoot = configuration.Build();
+
+                    var jsonFileStorageOptions = new JsonFileStorageOptions();
+                    configurationRoot.GetSection(jsonFileStorageOptions.SectionName)
+                                     .Bind(jsonFileStorageOptions);
+
+                    var carCrud = new CarCRUD(jsonFileStorageOptions);
+                    CarCRUDTest.TestAll(carCrud);
+
+                    Console.WriteLine($"jsonFileStorageOptions.SectionName={jsonFileStorageOptions.SectionName}");
+                    Console.WriteLine($"jsonFileStorageOptions.FilePath={jsonFileStorageOptions.FilePath}");
+                });
     }
 }

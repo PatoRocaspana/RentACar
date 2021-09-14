@@ -1,0 +1,90 @@
+[
+  {
+    "Id": 1,
+    "Brand": 2,
+    "Model": "Camaro",
+    "DoorsQuantity": 2,
+    "Color": "Yellow",
+    "Transmission": 1
+  },
+  {
+    "Id": 2,
+    "Brand": 0,
+    "Model": "Punto",
+    "DoorsQuantity": 3,
+    "Color": "Red",
+    "Transmission": 0
+  },
+  {
+    "Id": 3,
+    "Brand": 4,
+    "Model": "Clio",
+    "DoorsQuantity": 5,
+    "Color": "Green",
+    "Transmission": 0
+  },
+  {
+    "Id": 4,
+    "Brand": 5,
+    "Model": "Vento",
+    "DoorsQuantity": 4,
+    "Color": "Silver",
+    "Transmission": 1
+  },
+  {
+    "Id": 5,
+    "Brand": 2,
+    "Model": "Corsa",
+    "DoorsQuantity": 5,
+    "Color": "White",
+    "Transmission": 0
+  },
+  {
+    "Id": 6,
+    "Brand": 0,
+    "Model": "Punto",
+    "DoorsQuantity": 3,
+    "Color": "Red",
+    "Transmission": 0
+  },
+  {
+    "Id": 8,
+    "Brand": 5,
+    "Model": "Vento",
+    "DoorsQuantity": 4,
+    "Color": "Silver",
+    "Transmission": 1
+  },
+  {
+    "Id": 9,
+    "Brand": 2,
+    "Model": "Corsa",
+    "DoorsQuantity": 5,
+    "Color": "White",
+    "Transmission": 0
+  },
+  {
+    "Id": 10,
+    "Brand": 0,
+    "Model": "Punto",
+    "DoorsQuantity": 3,
+    "Color": "Red",
+    "Transmission": 0
+  },
+  {
+    "Id": 11,
+    "Brand": 4,
+    "Model": "Clio",
+    "DoorsQuantity": 5,
+    "Color": "Green",
+    "Transmission": 0
+  },
+  {
+    "Id": 12,
+    "Brand": 5,
+    "Model": "Vento",
+    "DoorsQuantity": 4,
+    "Color": "Silver",
+    "Transmission": 1
+  }
+]
