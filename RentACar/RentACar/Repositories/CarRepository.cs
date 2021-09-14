@@ -5,7 +5,7 @@ namespace RentACar.Repositories
 {
     public class CarRepository : Repository<Car>, ICarRepository
     {
-        public CarRepository(FilePathsStorage storageConfig) : base(storageConfig.Car) { }
+        public CarRepository(FilePathsStorageOptions storageConfig) : base(storageConfig.Car) { }
 
         protected override void UpdateEntity(Car existingEntity, Car newEntity)
         {

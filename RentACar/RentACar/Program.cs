@@ -25,8 +25,8 @@ namespace RentACar
 
                     IConfigurationRoot configurationRoot = configuration.Build();
 
-                    var storageOptions = new FilePathsStorage();
-                    configurationRoot.GetSection(nameof(FilePathsStorage))
+                    var storageOptions = new FilePathsStorageOptions();
+                    configurationRoot.GetSection(nameof(FilePathsStorageOptions))
                                      .Bind(storageOptions);
 
                     System.Console.WriteLine("\nCarCRUD:");

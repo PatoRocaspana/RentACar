@@ -5,7 +5,7 @@ namespace RentACar.Repositories
 {
     public class RentalRepository : Repository<Rental>, IRentalRepository
     {
-        public RentalRepository(FilePathsStorage storageConfig) : base(storageConfig.Rental) { }
+        public RentalRepository(FilePathsStorageOptions storageConfig) : base(storageConfig.Rental) { }
 
         protected override void UpdateEntity(Rental existingEntity, Rental newEntity)
         {

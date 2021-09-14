@@ -9,7 +9,7 @@ namespace RentACar.Repositories
 {
     public class ClientRepository : Repository<Client>, IClientRepository
     {
-        public ClientRepository(FilePathsStorage storageConfig) : base(storageConfig.Client) { }
+        public ClientRepository(FilePathsStorageOptions storageConfig) : base(storageConfig.Client) { }
 
         public override Client Create(Client newEntity)
         {

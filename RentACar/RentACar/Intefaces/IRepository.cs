@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using RentACar.Models.Base;
+using System.Collections.Generic;
 
 namespace RentACar.Intefaces
 {
-    public interface IRepository<T>
+    public interface IRepository<T> where T : Entity
     {
         T Create(T obj);
         T Get(int id);

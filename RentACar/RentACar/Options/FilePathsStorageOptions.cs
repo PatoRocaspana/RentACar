@@ -1,6 +1,6 @@
 ﻿namespace RentACar.Options
 {
-    public class FilePathsStorage
+    public class FilePathsStorageOptions
     {
         public string Car { get; set; }
         public string Client { get; set; }
