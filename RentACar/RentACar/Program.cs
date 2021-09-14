@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using RentACar.Options;
+using RentACar.Repositories;
 using RentACar.Test;
-using System;
+using RentACar.Tests;
 
 namespace RentACar
 {
@@ -25,15 +26,21 @@ namespace RentACar
 
                     IConfigurationRoot configurationRoot = configuration.Build();
 
-                    var jsonFileStorageOptions = new JsonFileStorageOptions();
-                    configurationRoot.GetSection(jsonFileStorageOptions.SectionName)
-                                     .Bind(jsonFileStorageOptions);
+                    var storageOptions = new FilePathsStorage();
+                    configurationRoot.GetSection(nameof(FilePathsStorage))
+                                     .Bind(storageOptions);
 
-                    var carCrud = new CarCRUD(jsonFileStorageOptions);
+                    System.Console.WriteLine("\nCarCRUD:");
+                    var carCrud = new CarCRUD(storageOptions);
                     CarCRUDTest.TestAll(carCrud);
 
-                    Console.WriteLine($"jsonFileStorageOptions.SectionName={jsonFileStorageOptions.SectionName}");
-                    Console.WriteLine($"jsonFileStorageOptions.FilePath={jsonFileStorageOptions.FilePath}");
+                    System.Console.WriteLine("\nClientCRUD:");
+                    var clientCrud = new ClientCRUD(storageOptions);
+                    ClientCRUDTest.TestAll(clientCrud);
+
+                    System.Console.WriteLine("\nRentalCRUD:");
+                    var rentalCrud = new RentalCRUD(storageOptions);
+                    RentalCRUDTest.TestAll(rentalCrud);
                 });
     }
 }

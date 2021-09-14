@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RentACar.Models;
+using RentACar.Repositories;
+using System;
 
 namespace RentACar.Test
 {
@@ -19,12 +21,12 @@ namespace RentACar.Test
             carCrud.Create(car4);
 
             //Get Car from json
-            var getResponse = carCrud.Get(4);
+            var getResponse = carCrud.Get(3);
             var getMessage = (getResponse != null) ? $"Here is the {getResponse.Brand} {getResponse.Model} color {getResponse.Color} for you!" : "Sorry, we dont have that car!";
             Console.WriteLine(getMessage);
 
             //Update Car from json
-            var carToUpdate = new Car { Id = 1, Brand = Brand.Chevrolet, Model = "Camaro", DoorsQuantity = 2, Color = "Yellow", Transmission = Transmission.Automatic };
+            var carToUpdate = new Car { Id = 4, Brand = Brand.Chevrolet, Model = "Camaro", DoorsQuantity = 2, Color = "Yellow", Transmission = Transmission.Automatic };
             var updateResponse = carCrud.Update(carToUpdate);
             var updateMessage = (updateResponse != null) ? $"Car updated to {updateResponse.Brand} {updateResponse.Model}!" : "Sorry, we dont have that car!";
             Console.WriteLine(updateMessage);
