@@ -1,8 +1,9 @@
-﻿namespace RentACar
+﻿using RentACar.Models.Base;
+
+namespace RentACar.Models
 {
-    public class Car
+    public class Car : Entity
     {
-        public int Id { get; set; }
         public Brand Brand { get; set; }
         public string Model { get; set; }
         public int DoorsQuantity { get; set; }
