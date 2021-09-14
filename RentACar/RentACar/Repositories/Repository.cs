@@ -8,57 +8,57 @@ namespace RentACar.Repositories
 {
     public abstract class Repository<T> : IRepository<T> where T : Entity
     {
-        private List<T> _objs;
+        protected List<T> EntityList { get; private set; }
 
         private readonly string _jsonFile;
 
-        public Repository(string config)
+        public Repository(string storagePath)
         {
-            _jsonFile = config;
-            _objs = CrudHelper<T>.CheckFileAndGetList(_jsonFile);
+            _jsonFile = storagePath;
+            EntityList = CrudHelper<T>.CheckFileAndGetList(_jsonFile);
         }
 
-        public virtual T Create(T obj)
+        public virtual T Create(T entity)
         {
-            obj.Id = CrudHelper<T>.GetNewId(_objs);
-            _objs.Add(obj);
+            entity.Id = CrudHelper<T>.GetNewId(EntityList);
+            EntityList.Add(entity);
 
-            CrudHelper<T>.SaveListToFile(_objs, _jsonFile);
+            CrudHelper<T>.SaveListToFile(EntityList, _jsonFile);
 
-            return obj;
+            return entity;
         }
 
-        public virtual T Update(T obj)
+        public virtual T Update(T entity)
         {
-            var existing = Get(obj.Id);
+            var existingEntity = Get(entity.Id);
 
-            if (existing is null)
+            if (existingEntity is null)
                 return null;
 
-            UpdateObject(existing, obj);
+            UpdateEntity(existingEntity, entity);
 
-            CrudHelper<T>.SaveListToFile(_objs, _jsonFile);
+            CrudHelper<T>.SaveListToFile(EntityList, _jsonFile);
 
-            return existing;
+            return existingEntity;
         }
 
-        protected abstract void UpdateObject(T existing, T newValues);
+        protected abstract void UpdateEntity(T existingEntity, T newEntity);
 
         public virtual T Get(int id)
         {
-            var obj = _objs.FirstOrDefault(e => e.Id == id);
-            return obj;
+            var entity = EntityList.FirstOrDefault(e => e.Id == id);
+            return entity;
         }
 
         public virtual void Delete(int id)
         {
-            _objs.Remove(_objs.FirstOrDefault(obj => obj.Id == id));
-            CrudHelper<T>.SaveListToFile(_objs, _jsonFile);
+            EntityList.Remove(EntityList.FirstOrDefault(obj => obj.Id == id));
+            CrudHelper<T>.SaveListToFile(EntityList, _jsonFile);
         }
 
         public virtual List<T> GetAll()
         {
-            return _objs;
+            return EntityList;
         }
     }
 }

@@ -31,16 +31,16 @@ namespace RentACar
                                      .Bind(storageOptions);
 
                     System.Console.WriteLine("\nCarCRUD:");
-                    var carCrud = new CarCRUD(storageOptions);
-                    CarCRUDTest.TestAll(carCrud);
+                    var carRepository = new CarRepository(storageOptions);
+                    CarRepositoryTest.TestAll(carRepository);
 
                     System.Console.WriteLine("\nClientCRUD:");
-                    var clientCrud = new ClientCRUD(storageOptions);
-                    ClientCRUDTest.TestAll(clientCrud);
+                    var clientRepository = new ClientRepository(storageOptions);
+                    ClientRepositoryTest.TestAll(clientRepository);
 
                     System.Console.WriteLine("\nRentalCRUD:");
-                    var rentalCrud = new RentalCRUD(storageOptions);
-                    RentalCRUDTest.TestAll(rentalCrud);
+                    var rentalRepository = new RentalRepository(storageOptions);
+                    RentalRepositoryTest.TestAll(rentalRepository);
                 });
     }
 }

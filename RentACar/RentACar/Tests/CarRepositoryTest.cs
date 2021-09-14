@@ -4,9 +4,9 @@ using System;
 
 namespace RentACar.Test
 {
-    public static class CarCRUDTest
+    public static class CarRepositoryTest
     {
-        static public void TestAll(CarCRUD carCrud)
+        static public void TestAll(CarRepository carRepository)
         {
             //Create Cars objects
             var car1 = new Car { Brand = Brand.Chevrolet, Model = "Corsa", DoorsQuantity = 5, Color = "White", Transmission = Transmission.Manual };
@@ -15,24 +15,24 @@ namespace RentACar.Test
             var car4 = new Car { Brand = Brand.Volkswagen, Model = "Vento", DoorsQuantity = 4, Color = "Silver", Transmission = Transmission.Automatic };
 
             //Create Cars in json
-            carCrud.Create(car1);
-            carCrud.Create(car2);
-            carCrud.Create(car3);
-            carCrud.Create(car4);
+            carRepository.Create(car1);
+            carRepository.Create(car2);
+            carRepository.Create(car3);
+            carRepository.Create(car4);
 
             //Get Car from json
-            var getResponse = carCrud.Get(3);
-            var getMessage = (getResponse != null) ? $"Here is the {getResponse.Brand} {getResponse.Model} color {getResponse.Color} for you!" : "Sorry, we dont have that car!";
+            var getResult = carRepository.Get(3);
+            var getMessage = (getResult != null) ? $"Here is the {getResult.Brand} {getResult.Model} color {getResult.Color} for you!" : "Sorry, we dont have that car!";
             Console.WriteLine(getMessage);
 
             //Update Car from json
             var carToUpdate = new Car { Id = 4, Brand = Brand.Chevrolet, Model = "Camaro", DoorsQuantity = 2, Color = "Yellow", Transmission = Transmission.Automatic };
-            var updateResponse = carCrud.Update(carToUpdate);
-            var updateMessage = (updateResponse != null) ? $"Car updated to {updateResponse.Brand} {updateResponse.Model}!" : "Sorry, we dont have that car!";
+            var updateResult = carRepository.Update(carToUpdate);
+            var updateMessage = (updateResult != null) ? $"Car updated to {updateResult.Brand} {updateResult.Model}!" : "Sorry, we dont have that car!";
             Console.WriteLine(updateMessage);
 
             //Delete Car from json
-            carCrud.Delete(7);
+            carRepository.Delete(7);
         }
     }
 }

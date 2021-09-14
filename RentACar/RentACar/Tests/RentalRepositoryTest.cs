@@ -4,9 +4,9 @@ using System;
 
 namespace RentACar.Tests
 {
-    public static class RentalCRUDTest
+    public static class RentalRepositoryTest
     {
-        static public void TestAll(RentalCRUD rentalCrud)
+        static public void TestAll(RentalRepository rentalRepository)
         {
             //Create Cars objects
 
@@ -41,26 +41,26 @@ namespace RentACar.Tests
             var rental2 = new Rental { Car = car2, Client = client2, RentalDate = DateTime.UtcNow.AddDays(-2), ReturnDate = DateTime.UtcNow };
 
             //Create Cars in json
-            rentalCrud.Create(rental1);
-            rentalCrud.Create(rental2);
+            rentalRepository.Create(rental1);
+            rentalRepository.Create(rental2);
 
             //Get Car from json
-            var getResponse = rentalCrud.Get(1);
-            var getMessage = (getResponse != null) ? $"GET>> Here is the Rental Id {getResponse.Id} RentalDate: {getResponse.RentalDate:dd/MM/yyyy} ReturnDate {getResponse.ReturnDate:dd/MM/yyyy} so RentalDuration {getResponse.RentalDuration.Days} days" : "GET>> Sorry, we dont have that rent!";
+            var getResult = rentalRepository.Get(1);
+            var getMessage = (getResult != null) ? $"GET>> Here is the Rental Id {getResult.Id} RentalDate: {getResult.RentalDate:dd/MM/yyyy} ReturnDate {getResult.ReturnDate:dd/MM/yyyy} so RentalDuration {getResult.RentalDuration.Days} days" : "GET>> Sorry, we dont have that rent!";
             Console.WriteLine(getMessage);
 
             //Update Car from json
             rental1.RentalDate = DateTime.UtcNow.AddDays(-30);
             var rentalToUpdate = rental1;
-            var updateResponse = rentalCrud.Update(rentalToUpdate);
-            var updateMessage = (updateResponse != null) ? $"UPDATE>>  Rental Id {updateResponse.Id} RentalDate: {updateResponse.RentalDate:dd/MM/yyyy} so now RentalDuration {updateResponse.RentalDuration.Days} days" : "UPDATE>> Sorry, we dont have that car!";
+            var updateResult = rentalRepository.Update(rentalToUpdate);
+            var updateMessage = (updateResult != null) ? $"UPDATE>>  Rental Id {updateResult.Id} RentalDate: {updateResult.RentalDate:dd/MM/yyyy} so now RentalDuration {updateResult.RentalDuration.Days} days" : "UPDATE>> Sorry, we dont have that car!";
             Console.WriteLine(updateMessage);
 
             //Delete Car from json
-            rentalCrud.Delete(7);
+            rentalRepository.Delete(7);
 
             //GetAll rentals
-            foreach (var element in rentalCrud.GetAll())
+            foreach (var element in rentalRepository.GetAll())
             {
                 Console.WriteLine($"The rental {element.Id} from client {element.Client.Dni} RentalDate: {element.RentalDate:dd/MM/yyyy} ReturnDate {element.ReturnDate:dd/MM/yyyy} so RentalDuration {element.RentalDuration.Days} ddays \n");
             }

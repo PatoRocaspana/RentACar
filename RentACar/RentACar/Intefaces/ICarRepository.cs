@@ -3,7 +3,7 @@ using RentACar.Models;
 
 namespace RentACar.Repositories
 {
-    public interface IClientCRUD : IRepository<Client>
+    public interface ICarRepository : IRepository<Car>
     {
     }
 }
