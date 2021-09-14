@@ -2,7 +2,7 @@
 using RentACar.Repositories;
 using System;
 
-namespace RentACar.Tests
+namespace RentACar.Test
 {
     public static class RentalRepositoryTest
     {
@@ -45,15 +45,14 @@ namespace RentACar.Tests
             rentalRepository.Create(rental2);
 
             //Get Car from json
-            var getResult = rentalRepository.Get(1);
+            var getResult = rentalRepository.Get(2);
             var getMessage = (getResult != null) ? $"GET>> Here is the Rental Id {getResult.Id} RentalDate: {getResult.RentalDate:dd/MM/yyyy} ReturnDate {getResult.ReturnDate:dd/MM/yyyy} so RentalDuration {getResult.RentalDuration.Days} days" : "GET>> Sorry, we dont have that rent!";
             Console.WriteLine(getMessage);
 
             //Update Car from json
-            rental1.RentalDate = DateTime.UtcNow.AddDays(-30);
-            var rentalToUpdate = rental1;
-            var updateResult = rentalRepository.Update(rentalToUpdate);
-            var updateMessage = (updateResult != null) ? $"UPDATE>>  Rental Id {updateResult.Id} RentalDate: {updateResult.RentalDate:dd/MM/yyyy} so now RentalDuration {updateResult.RentalDuration.Days} days" : "UPDATE>> Sorry, we dont have that car!";
+            var rentalToUpdate = new Rental { Car = car1, Client = client1, RentalDate = DateTime.UtcNow.AddDays(-10), ReturnDate = DateTime.UtcNow };
+            var updateResult = rentalRepository.Update(rentalToUpdate, 2);
+            var updateMessage = (updateResult != null) ? $"UPDATE>>  Rental Id {updateResult.Id} RentalDate: {updateResult.RentalDate:dd/MM/yyyy} so now RentalDuration {updateResult.RentalDuration.Days} days" : "UPDATE>> Sorry, we dont have that rent!";
             Console.WriteLine(updateMessage);
 
             //Delete Car from json

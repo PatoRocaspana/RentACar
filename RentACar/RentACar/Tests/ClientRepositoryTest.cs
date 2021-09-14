@@ -45,7 +45,18 @@ namespace RentACar.Test
                 PostalCode = "2001"
             };
 
-            var client4 = new Client
+            //Create Clients in json
+            clientRepository.Create(client1);
+            clientRepository.Create(client2);
+            clientRepository.Create(client3);
+
+            //Get Client from json
+            var getResult = clientRepository.Get(1);
+            var getMessage = (getResult != null) ? $"GET>> Here is the Client with Id {getResult.Id} whose name is {getResult.Name} {getResult.LastName}. Last Update {getResult.LastUpdate} !" : "GET>> Sorry, that client doesn´t exist in our db!";
+            Console.WriteLine(getMessage);
+
+            //Update Client from json
+            var clientToUpdate = new Client
             {
                 Dni = "6222111",
                 Name = "Daniel",
@@ -57,22 +68,8 @@ namespace RentACar.Test
                 PostalCode = "2000"
             };
 
-            //Create Clients in json
-            clientRepository.Create(client1);
-            clientRepository.Create(client2);
-            clientRepository.Create(client3);
-            clientRepository.Create(client4);
-
-            //Get Client from json
-            var getResult = clientRepository.Get(2);
-            var getMessage = (getResult != null) ? $"GET>> Here is the Client with DNI {getResult.Dni} whose name is {getResult.Name} {getResult.LastName}. Last Update {getResult.LastUpdate} !" : "GET>> Sorry, that client doesn´t exist in our db!";
-            Console.WriteLine(getMessage);
-
-            //Update Client from json
-            var clientToUpdate = clientRepository.Get(2);
-            clientToUpdate.Address = "Rio Grande 1767";
-            var updateResult = clientRepository.Update(clientToUpdate);
-            var updateMessage = (updateResult is not null) ? $"GET>> Client {updateResult.Name} {updateResult.LastName} was updated! Now his/her adress is {updateResult.Address}!" : "GET>> Sorry, that client doesn´t exist in our db!";
+            var updateResult = clientRepository.Update(clientToUpdate, 1);
+            var updateMessage = (updateResult is not null) ? $"UPDATE>> Client Id {updateResult.Id} {updateResult.Name} {updateResult.LastName} was updated! Now his/her adress is {updateResult.Address}!" : "UPDATE>> Sorry, that client doesn´t exist in our db or already exist a client with same Dni!";
             Console.WriteLine(updateMessage);
 
             //Delete Client from json

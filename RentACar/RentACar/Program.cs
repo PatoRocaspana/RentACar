@@ -3,7 +3,6 @@ using Microsoft.Extensions.Hosting;
 using RentACar.Options;
 using RentACar.Repositories;
 using RentACar.Test;
-using RentACar.Tests;
 
 namespace RentACar
 {

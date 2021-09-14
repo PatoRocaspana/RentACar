@@ -1,4 +1,5 @@
-﻿using RentACar.Models;
+﻿using RentACar.Helpers;
+using RentACar.Models;
 using RentACar.Options;
 using System;
 using System.Collections.Generic;
@@ -10,16 +11,36 @@ namespace RentACar.Repositories
     {
         public ClientRepository(FilePathsStorage storageConfig) : base(storageConfig.Client) { }
 
-        public override Client Create(Client entity)
+        public override Client Create(Client newEntity)
         {
-            if (EntityList.Any(e => e.Dni == entity.Dni))
+            if (DniExistInList(newEntity.Dni))
                 return null;
 
-            entity.LastUpdate = DateTime.UtcNow;
+            newEntity.LastUpdate = DateTime.UtcNow;
 
-            var clientCreated = base.Create(entity);
+            var clientCreated = base.Create(newEntity);
 
             return clientCreated;
+        }
+
+        public override Client Update(Client newEntity, int id)
+        {
+            var existingEntity = Get(id);
+
+            if (existingEntity is null)
+                return null;
+
+            if ( existingEntity.Dni != newEntity.Dni)
+            {
+                if (DniExistInList(newEntity.Dni))
+                    return null;
+            }
+
+            UpdateEntity(existingEntity, newEntity);
+
+            CrudHelper<Client>.SaveListToFile(EntityList, _jsonFile);
+
+            return existingEntity;
         }
 
         public override List<Client> GetAll()
@@ -41,6 +62,11 @@ namespace RentACar.Repositories
             existingEntity.PostalCode = newEntity.PostalCode;
             existingEntity.Province = newEntity.Province;
             existingEntity.LastUpdate = DateTime.UtcNow;
+        }
+
+        private bool DniExistInList(string dni)
+        {
+            return EntityList.Any(e => e.Dni == dni);
         }
     }
 }

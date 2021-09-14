@@ -26,8 +26,8 @@ namespace RentACar.Test
             Console.WriteLine(getMessage);
 
             //Update Car from json
-            var carToUpdate = new Car { Id = 4, Brand = Brand.Chevrolet, Model = "Camaro", DoorsQuantity = 2, Color = "Yellow", Transmission = Transmission.Automatic };
-            var updateResult = carRepository.Update(carToUpdate);
+            var carToUpdate = new Car { Brand = Brand.Chevrolet, Model = "Camaro", DoorsQuantity = 2, Color = "Yellow", Transmission = Transmission.Automatic };
+            var updateResult = carRepository.Update(carToUpdate, 3);
             var updateMessage = (updateResult != null) ? $"Car updated to {updateResult.Brand} {updateResult.Model}!" : "Sorry, we dont have that car!";
             Console.WriteLine(updateMessage);
 

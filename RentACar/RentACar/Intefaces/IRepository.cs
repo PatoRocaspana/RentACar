@@ -6,7 +6,7 @@ namespace RentACar.Intefaces
     {
         T Create(T obj);
         T Get(int id);
-        T Update(T obj);
+        T Update(T obj, int id);
         void Delete(int id);
         List<T> GetAll();
     }

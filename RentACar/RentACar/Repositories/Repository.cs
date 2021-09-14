@@ -10,7 +10,7 @@ namespace RentACar.Repositories
     {
         protected List<T> EntityList { get; private set; }
 
-        private readonly string _jsonFile;
+        protected readonly string _jsonFile;
 
         public Repository(string storagePath)
         {
@@ -28,9 +28,9 @@ namespace RentACar.Repositories
             return entity;
         }
 
-        public virtual T Update(T entity)
+        public virtual T Update(T entity, int id)
         {
-            var existingEntity = Get(entity.Id);
+            var existingEntity = Get(id);
 
             if (existingEntity is null)
                 return null;
